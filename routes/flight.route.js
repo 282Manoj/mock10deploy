@@ -3,10 +3,7 @@ const {FlightModel} = require("../models/flight.model");
 const FlightRouter=express.Router();
 
 FlightRouter.get("/",async(req,res)=>{
-    const payload=req.body;
-    const q=req.query.device1;
-    const q2=req.query.device2;
-    const userID_in_req=req.body.userID;
+    
     try {
        
     
@@ -19,6 +16,8 @@ FlightRouter.get("/",async(req,res)=>{
         res.send({"msg":"something went wrong"});
     }
 })
+
+
 FlightRouter.get("/flights/:id",async(req,res)=>{
     const payload=req.body;
     const q=req.query.device1;
@@ -43,7 +42,7 @@ FlightRouter.post("/",async(req,res)=>{
     try {
         const new_post=new FlightModel(payload);
         await new_post.save();
-        res.send("Created the post");
+        res.send("Created the flight");
     } catch (error) {
         console.log(error);
         res.send({"msg":"something went wrong"});
@@ -54,11 +53,10 @@ FlightRouter.patch("/flights/:id",async(req,res)=>{
     const payload=req.body;
     const id=req.params.id;
     const post =await FlightModel.findOne({"_id":id});
-    const userID_in_post=post.userID;
-    const userID_in_req=req.body.userID;
+   
     try {
           await FlightModel.findByIdAndUpdate({"_id":id},payload)
-          res.send("Updated the post");
+          res.send("Updated the flight");
         
     } catch (error) {
         console.log(err);
@@ -71,13 +69,12 @@ FlightRouter.delete("/flights/:id",async(req,res)=>{
     // const payload=req.body;
     const id=req.params.id;
     const post =await FlightModel.findOne({"_id":id});
-    const userID_in_post=post.userID;
-    const userID_in_req=req.body.userID;
+  
     try {
        
     
           await FlightModel.findByIdAndDelete({"_id":id})
-          res.send("Deleted the post the post");
+          res.send("Deleted the post the flight");
         
     } catch (error) {
         console.log(err);
